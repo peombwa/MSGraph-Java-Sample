@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group 'org.microsoft.graph.sample'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.azure:azure-identity:1.0.8'
+    implementation 'com.microsoft.graph:microsoft-graph:1.8.+'
+    implementation project(':msgraph-sdk-java-core')
+}
+
+task(runMain, dependsOn: 'classes', type: JavaExec) {
+    main = 'org.microsoft.graph.sample.DeviceCodeFlow'
+    classpath = sourceSets.main.runtimeClasspath
+}

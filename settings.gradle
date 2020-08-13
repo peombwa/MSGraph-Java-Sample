@@ -1,0 +1,4 @@
+rootProject.name = 'msgraph-desktop'
+
+include ':msgraph-sdk-java-core'
+project(':msgraph-sdk-java-core').projectDir = new File('../msgraph-sdk-java-core')
