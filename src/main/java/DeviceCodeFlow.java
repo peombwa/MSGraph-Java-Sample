@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.azure.identity.InteractiveBrowserCredential;
+import com.azure.identity.InteractiveBrowserCredentialBuilder;
 import com.microsoft.graph.authentication.*;
 import com.azure.identity.DeviceCodeCredential;
 import com.azure.identity.DeviceCodeCredentialBuilder;
@@ -27,16 +29,21 @@ public class DeviceCodeFlow {
     }
 
     private static void getUserWithHttp() throws AuthenticationException{
-        DeviceCodeCredential deviceCodeCredential = new DeviceCodeCredentialBuilder()
-                .challengeConsumer(challenge -> {
-                    // lets user know of the challenge
-                    System.out.println(challenge.getMessage());
-                })
+//        DeviceCodeCredential deviceCodeCredential = new DeviceCodeCredentialBuilder()
+//                .challengeConsumer(challenge -> {
+//                    // lets user know of the challenge
+//                    System.out.println(challenge.getMessage());
+//                })
+//                .clientId(CLIENT_ID)
+//                .authorityHost(AUTHORITY)
+//                .build();
+
+        InteractiveBrowserCredential interactiveBrowserCredential = new InteractiveBrowserCredentialBuilder()
                 .clientId(CLIENT_ID)
-                .authorityHost(AUTHORITY)
+                .port(8765)
                 .build();
 
-        TokenCredentialAuthProvider tokenCredentialAuthProvider = new TokenCredentialAuthProvider(deviceCodeCredential,SCOPE);
+        TokenCredentialAuthProvider tokenCredentialAuthProvider = new TokenCredentialAuthProvider(interactiveBrowserCredential,SCOPE);
         OkHttpClient httpClient = HttpClients.createDefault(tokenCredentialAuthProvider);
 
         Request request = new Request.Builder().url("https://graph.microsoft.com/v1.0/me/").build();
